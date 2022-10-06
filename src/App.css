@@ -3,3 +3,7 @@
   min-height: 200px;
   max-height: 400px;
 }
+
+.chatImage {
+  max-width: 256px;
+}
