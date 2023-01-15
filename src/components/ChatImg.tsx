@@ -1,3 +1,4 @@
+// @ts-nocheck
 import villageChatImg from "../village-chat.jpg";
 
 export default function ChatImg() {

@@ -1,19 +1,21 @@
+// @ts-nocheck
 import ChatBox from "./ChatBox";
 import {useCallback, useEffect, useRef, useState} from "react";
 
 function timeStamp() {
-  return new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second: '2-digit'});
+  return new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit', second: '2-digit'});
 }
 
-export default function ChatForm ({screenName}) {
+export default function ChatForm({screenName}: { screenName: string }) {
   const inputRef = useRef(null);
   const [chatLog, setChatLog] = useState([]);
 
-  const onMessageReceived = useCallback(event => {
+  const onMessageReceived = useCallback((event: MessageEvent<any>) => {
     console.log('received event');
     console.log(event.data);
-    const { payload } = event?.data;
-    if( payload?.text && payload?.sender) {
+    const {payload} = event?.data;
+    if (payload?.text && payload?.sender) {
+      // @ts-ignore
       setChatLog([...chatLog, `${timeStamp()}  ${payload.sender}: ` + payload.text]);
     }
   }, [chatLog]);
@@ -27,10 +29,10 @@ export default function ChatForm ({screenName}) {
   }, [onMessageReceived]);
 
 
-  const onFormSubmit = (e) => {
+  const onFormSubmit = (e: any) => {
     e.preventDefault();
 
-    const msgText = inputRef.current.value;
+    const msgText = inputRef?.current.value;
     inputRef.current.value = '';
 
     setChatLog([...chatLog, `${timeStamp()}  ${screenName}: ` + msgText]);
