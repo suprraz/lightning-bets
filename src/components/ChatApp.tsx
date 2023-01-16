@@ -1,7 +1,7 @@
 import ChatForm from './ChatForm';
-import BetsList from './BetsList';
 import { useSelector } from 'react-redux';
 import { selectScreenName } from '../redux/userSlice';
+import BetsList from './BetsList';
 
 export default function ChatApp() {
   const screenName = useSelector(selectScreenName);

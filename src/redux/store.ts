@@ -1,11 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
 import routeSliceReducer from './routeSlice';
 import userSliceReducer from './userSlice';
+import networkSliceReducer from './networkSlice';
+import betsSliceReducer from './betsSlice';
 
 export const store = configureStore({
   reducer: {
     route: routeSliceReducer,
-    user: userSliceReducer
+    user: userSliceReducer,
+    network: networkSliceReducer,
+    bets: betsSliceReducer
   }
 });
 

@@ -1,26 +1,62 @@
-export default function BetsList() {
-  const bets = [{
+import { useSelector } from 'react-redux';
+import { selectActiveBets } from '../redux/betsSlice';
+import { netBroadcast } from '../messaging/netBroadcast';
+import { selectScreenName } from '../redux/userSlice';
+import { v4 as uuidv4 } from 'uuid';
+
+const bets = [
+  {
     id: '0001',
     amount: 100,
-    condition: 'BTC > 17200 on Jan 10 at 11:00am PST',
+    condition: {
+      label: 'btc > 19000 on 2023-01-15',
+      url: 'https://api.coinpaprika.com/v1/coins/btc-bitcoin/ohlcv/historical?start=2023-01-15&end=2023-01-15',
+      validator: '[0].open',
+      comparison: '>',
+      value: 19000
+    }
   },
-    {
-      id: '0002',
-      amount: 500,
-      condition: 'BTC > 17100 on Jan 10 at 11:00am PST',
-    },
-    {
-      id: '0003',
-      amount: 400,
-      condition: 'BTC < 16900 on Jan 10 at 11:00am PST',
-    }];
+  {
+    id: '0002',
+    amount: 500,
+    condition: {
+      label: 'btc < 19000 on 2023-01-15',
+      url: 'https://api.coinpaprika.com/v1/coins/btc-bitcoin/ohlcv/historical?start=2019-01-01&end=2019-01-20',
+      validator: '[0].open',
+      comparison: '<',
+      value: 19000
+    }
+  }
+];
+
+function getBets() {
+  return [
+    { ...bets[0], id: uuidv4() },
+    { ...bets[1], id: uuidv4() }
+  ];
+}
+
+export default function BetsList() {
+  const screenName = useSelector(selectScreenName);
+
+  const activeBets = useSelector(selectActiveBets);
+
+  const createBet = () => {
+    netBroadcast('betList', { betList: getBets(), screenName });
+  };
 
   return (
-    <ul className='ml-4 p-5 box'>
-      {bets.map(bet => <li>
-        <button className='button is-primary mb-2'>
-          Bet {bet.amount} satoshis: {bet.condition}
-        </button>
-      </li>)}
-    </ul>);
+    <ul className="ml-4 p-5 box">
+      <li key="createBet">
+        <button onClick={() => createBet()}>Create Bet</button>
+      </li>
+      {activeBets.map((bet) => (
+        <li key={bet.id}>
+          <button className="button is-primary mb-2">
+            <div>{`Bet ${bet.amount} satoshis: ${bet.condition.label}`}</div>
+          </button>
+        </li>
+      ))}
+    </ul>
+  );
 }

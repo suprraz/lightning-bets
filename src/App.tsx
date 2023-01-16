@@ -1,8 +1,8 @@
 import './App.css';
-import LandingPage from './pages/LandingPage';
+import Profile from './pages/Profile/Profile';
 import { selectActivePath } from './redux/routeSlice';
 import { useSelector } from 'react-redux';
-import Dashboard from './pages/Dashboard';
+import Dashboard from './pages/Dashboard/Dashboard';
 
 if (window === window.top) {
   window.location.href = 'http://localhost:8000/?runAppFromUrl=http://localhost:3000';
@@ -15,8 +15,9 @@ function App() {
     case 'dashboard':
       return <Dashboard />;
     case 'landing':
+    case 'updateScreenName':
     default:
-      return <LandingPage />;
+      return <Profile />;
   }
 }
 
