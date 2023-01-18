@@ -1,6 +1,6 @@
 import ChatForm from './ChatForm';
 import { useSelector } from 'react-redux';
-import { selectScreenName } from '../redux/userSlice';
+import { selectScreenName } from '../redux/slices/userSlice';
 import BetsList from './BetsList';
 
 export default function ChatApp() {

@@ -1,9 +1,9 @@
 import ScreenNameSetter from '../../components/ScreenNameSetter';
 import { useDispatch, useSelector } from 'react-redux';
-import { loadScreenName, saveScreenName, selectScreenName } from '../../redux/userSlice';
+import { loadScreenName, saveScreenName, selectScreenName } from '../../redux/slices/userSlice';
 import { useEffect } from 'react';
 import { AppDispatch } from '../../redux/store';
-import { setActivePath } from '../../redux/routeSlice';
+import { setActivePath } from '../../redux/slices/routeSlice';
 
 export default function Profile() {
   const dispatch = useDispatch<AppDispatch>();
@@ -13,13 +13,13 @@ export default function Profile() {
     if (!screenName) {
       dispatch(loadScreenName());
     }
-  }, []);
+  }, [screenName, dispatch]);
 
   useEffect(() => {
     if (screenName) {
       dispatch(setActivePath('dashboard'));
     }
-  }, [screenName]);
+  }, [screenName, dispatch]);
 
   const updateScreenName = (screenName: string) => {
     dispatch(saveScreenName(screenName));

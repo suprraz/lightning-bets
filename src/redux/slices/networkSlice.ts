@@ -1,6 +1,6 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
-import { RootState } from './store';
+import { RootState } from '../store';
 
 export interface Peer {
   id: string;
@@ -18,20 +18,14 @@ export const networkSlice = createSlice({
   name: 'network',
   initialState,
   reducers: {
-    addPeers: (state, action: PayloadAction<Peer[]>) => {
-      state.peers.push(...action.payload);
-    },
-    removePeers: (state, action: PayloadAction<Peer[]>) => {
-      const peersToDelete = action.payload;
-      state.peers = state.peers.filter(
-        (peer) => !peersToDelete.find((dPeer) => dPeer.id === peer.id)
-      );
+    updatePeers: (state, action: PayloadAction<Peer[]>) => {
+      state.peers = action.payload;
     }
   }
 });
 
 export const selectAppPeers = (state: RootState) => state.network.peers;
 
-export const { addPeers, removePeers } = networkSlice.actions;
+export const { updatePeers } = networkSlice.actions;
 
 export default networkSlice.reducer;

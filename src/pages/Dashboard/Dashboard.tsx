@@ -1,41 +1,16 @@
 import ChatApp from '../../components/ChatApp';
 import { useDispatch, useSelector } from 'react-redux';
-import { saveScreenName, selectScreenName } from '../../redux/userSlice';
+import { saveScreenName, selectScreenName } from '../../redux/slices/userSlice';
 import { AppDispatch } from '../../redux/store';
-import { setActivePath } from '../../redux/routeSlice';
-import { useEffect } from 'react';
-import { selectActiveBets, updateBets } from '../../redux/betsSlice';
-import { netBroadcast } from '../../messaging/netBroadcast';
-import PeerListener from '../../messaging/peerListener';
+import { setActivePath } from '../../redux/slices/routeSlice';
+import { selectBetlist } from '../../redux/slices/betsSlice';
+import { selectAppPeers } from '../../redux/slices/networkSlice';
 
 export default function Dashboard() {
   const dispatch = useDispatch<AppDispatch>();
   const screenName = useSelector(selectScreenName);
-  const activeBets = useSelector(selectActiveBets);
-
-  useEffect(() => {
-    const betListListener = PeerListener.addListener('betList', (data) => {
-      dispatch(updateBets(data.betList));
-    });
-
-    const betListRequest = PeerListener.addListener('requestBets', () => {
-      netBroadcast('betList', { betList: activeBets, screenName });
-    });
-
-    const networkChangedListener = PeerListener.addListener('networkChange', () => {
-      netBroadcast('requestBets', { screenName });
-    });
-
-    return () => {
-      PeerListener.removeListener(betListListener);
-      PeerListener.removeListener(betListRequest);
-      PeerListener.removeListener(networkChangedListener);
-    };
-  }, []);
-
-  useEffect(() => {
-    netBroadcast('requestBets', { screenName });
-  }, [screenName]);
+  const bets = useSelector(selectBetlist);
+  const peers = useSelector(selectAppPeers);
 
   const changeScreenName = () => {
     dispatch(saveScreenName(''));
@@ -48,7 +23,8 @@ export default function Dashboard() {
         <p className="title">
           Lightning Bets Dashboard | <a onClick={() => changeScreenName()}>{screenName}</a>
         </p>
-        <p className="subtitle">{activeBets?.length} bets active</p>
+        <p className="">{peers?.length} peers</p>
+        <p className="mb-3">{bets?.length} bets active</p>
         <ChatApp />
       </section>
     </div>

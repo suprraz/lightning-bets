@@ -1,6 +1,6 @@
 import './App.css';
 import Profile from './pages/Profile/Profile';
-import { selectActivePath } from './redux/routeSlice';
+import { selectActivePath } from './redux/slices/routeSlice';
 import { useSelector } from 'react-redux';
 import Dashboard from './pages/Dashboard/Dashboard';
 

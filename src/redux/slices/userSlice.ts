@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { RootState } from './store';
-import { readAppData, saveAppData } from '../messaging/persistentDataStore';
+import { RootState } from '../store';
+import { readAppData, saveAppData } from '../../messaging/persistentDataStore';
 
 export interface UserState {
   status: string;
