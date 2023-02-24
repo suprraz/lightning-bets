@@ -1,4 +1,4 @@
-import ChatApp from '../../components/ChatApp';
+import HockeyApp from '../../components/HockeyApp';
 import { useDispatch, useSelector } from 'react-redux';
 import { saveScreenName, selectScreenName } from '../../redux/slices/userSlice';
 import { AppDispatch } from '../../redux/store';
@@ -21,11 +21,11 @@ export default function Dashboard() {
     <div className="container" id="homeScreen" data-anchor="homeScreenAnchor">
       <section className="mt-6 notification is-info is-flex is-flex-direction-column is-justify-content-center is-align-content-center">
         <p className="title">
-          Lightning Bets Dashboard | <a onClick={() => changeScreenName()}>{screenName}</a>
+          Lightning Hockey | <a onClick={() => changeScreenName()}>{screenName}</a>
         </p>
         <p className="">{peers?.length} peers</p>
         <p className="mb-3">{bets?.length} bets active</p>
-        <ChatApp />
+        <HockeyApp />
       </section>
     </div>
   );
